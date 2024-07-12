@@ -125,6 +125,9 @@ private:
 	SlewRate<float> _manual_throttle_maximum{0.f}; ///< 0 when disarmed ramped to 1 when spooled up
 	AlphaFilter<float> _man_roll_input_filter;
 	AlphaFilter<float> _man_pitch_input_filter;
+	AlphaFilter<float> _man_aux1_input_filter;
+	AlphaFilter<float> _man_aux2_input_filter;
+
 
 	hrt_abstime _last_run{0};
 	hrt_abstime _last_attitude_setpoint{0};
