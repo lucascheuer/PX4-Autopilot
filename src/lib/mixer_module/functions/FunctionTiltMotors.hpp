@@ -76,7 +76,7 @@ public:
 
 	bool getLatestSampleTimestamp(hrt_abstime &t) const override { t = _data.timestamp_sample; return t != 0; }
 
-	static inline void updateValues(uint32_t reversible, float thrust_factor, float xy_thrust_factor, float *values, int num_values)
+	static inline void updateValues(uint32_t reversible, float thrust_factor, float xy_angle_factor, float *values, int num_values)
 	{
 		if (thrust_factor > 0.f && thrust_factor <= 1.f) {
 			// angle factor
@@ -97,8 +97,8 @@ public:
 				float x_angle = atan2f(relative_x_thrust, relative_z_thrust);
 				float y_angle = atan2f(relative_y_thrust, relative_z_thrust);
 				values[i] = thrust_factor * sqrtf(relative_thrust_magnitude);
-				values[i + num_values] = x_angle * xy_thrust_factor * values[i];
-				values[i + 2 * num_values] = y_angle * xy_thrust_factor * values[i];
+				values[i + num_values] = x_angle * xy_angle_factor * values[i]; // pi/6rad * 0.248 * 200rad/s = 50 rad/s
+				values[i + 2 * num_values] = y_angle * xy_angle_factor * values[i];
 			}
 		}
 	}
