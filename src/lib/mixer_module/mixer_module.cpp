@@ -40,7 +40,7 @@ using namespace time_literals;
 
 
 struct FunctionProvider {
-	using Constructor = FunctionProviderBase * (*)(const FunctionProviderBase::Context &context);
+	using Constructor = FunctionProviderBase * (*)(const FunctionProviderBase::Context &context); // look up function pointers
 	FunctionProvider(OutputFunction min_func_, OutputFunction max_func_, Constructor constructor_)
 		: min_func(min_func_), max_func(max_func_), constructor(constructor_) {}
 	FunctionProvider(OutputFunction func, Constructor constructor_)
@@ -56,6 +56,7 @@ static const FunctionProvider all_function_providers[] = {
 	{OutputFunction::Constant_Min, &FunctionConstantMin::allocate},
 	{OutputFunction::Constant_Max, &FunctionConstantMax::allocate},
 	{OutputFunction::Motor1, OutputFunction::MotorMax, &FunctionMotors::allocate},
+	{OutputFunction::Tilt_Motor_Throttle1, OutputFunction::Tilt_Motor_YMax, &FunctionTiltMotors::allocate},
 	{OutputFunction::Servo1, OutputFunction::ServoMax, &FunctionServos::allocate},
 	{OutputFunction::Peripheral_via_Actuator_Set1, OutputFunction::Peripheral_via_Actuator_Set6, &FunctionActuatorSet::allocate},
 	{OutputFunction::Landing_Gear, &FunctionLandingGear::allocate},
@@ -259,7 +260,7 @@ bool MixingOutput::updateSubscriptions(bool allow_wq_switch)
 
 	cleanupFunctions();
 
-	const FunctionProviderBase::Context context{_interface, _param_thr_mdl_fac.reference()};
+	const FunctionProviderBase::Context context{_interface, _param_thr_mdl_fac.reference(), _param_thr_xy_fac.reference()};
 	int provider_indexes[MAX_ACTUATORS] {};
 	int next_provider = 0;
 	int subscription_callback_provider_index = INT_MAX;
@@ -430,7 +431,7 @@ bool MixingOutput::update()
 	}
 
 	// check for actuator test
-	_actuator_test.update(_max_num_outputs, _param_thr_mdl_fac.get());
+	_actuator_test.update(_max_num_outputs, _param_thr_mdl_fac.get(), _param_thr_xy_fac.get());
 
 	// get output values
 	float outputs[MAX_ACTUATORS];

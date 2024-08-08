@@ -39,6 +39,15 @@ functions:
     Landing_Gear_Wheel: 440
 
     # Add your own here:
+    Tilt_Motor_Throttle:
+      start: 601
+      count: 5
+    Tilt_Motor_X:
+      start: 606
+      count: 5
+    Tilt_Motor_Y:
+      start: 611
+      count: 5
     #MyCustomFunction: 10000
 
   pwm_fmu: # These only exist on FMU PWM pins

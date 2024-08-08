@@ -41,6 +41,7 @@ set(msg_files
 	ActuatorArmed.msg
 	ActuatorControlsStatus.msg
 	ActuatorMotors.msg
+	ActuatorTiltMotors.msg
 	ActuatorOutputs.msg
 	ActuatorServos.msg
 	ActuatorServosTrim.msg

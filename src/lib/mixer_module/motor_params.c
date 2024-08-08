@@ -71,3 +71,21 @@ PARAM_DEFINE_FLOAT(MOT_SLEW_MAX, 0.0f);
  * @group PWM Outputs
  */
 PARAM_DEFINE_FLOAT(THR_MDL_FAC, 0.0f);
+
+/**
+ * Thrust to xy control signal model parameter
+ *
+ * Parameter used to model the nonlinear relationship between
+ * motor control signal (e.g. PWM) and static thrust.
+ *
+ * The model is: rel_thrust = factor * rel_signal^2 + (1-factor) * rel_signal,
+ * where rel_thrust is the normalized thrust between 0 and 1, and
+ * rel_signal is the relative motor control signal between 0 and 1.
+ *
+ * @min 0.0
+ * @max 100.0
+ * @decimal 1
+ * @increment 0.1
+ * @group PWM Outputs
+ */
+PARAM_DEFINE_FLOAT(THR_XY_FAC, 0.0f);

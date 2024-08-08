@@ -57,7 +57,7 @@ public:
 
 	void reset();
 
-	void update(int num_outputs, float thrust_curve);
+	void update(int num_outputs, float thrust_curve, float thrust_xy);
 
 	void overrideValues(float outputs[MAX_ACTUATORS], int num_outputs);
 

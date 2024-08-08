@@ -46,8 +46,18 @@ class FunctionProviderBase
 {
 public:
 	struct Context {
+		Context(px4::WorkItem &_work_item, const float &_thrust_factor)
+		: work_item(_work_item), thrust_factor(_thrust_factor), xy_thrust_factor(default_factor)
+		{}
+
+		Context(px4::WorkItem &_work_item, const float &_thrust_factor, const float &_xy_thrust_factor)
+		: work_item(_work_item), thrust_factor(_thrust_factor), xy_thrust_factor(_xy_thrust_factor)
+		{}
+
+		const float default_factor = 0;
 		px4::WorkItem &work_item;
 		const float &thrust_factor;
+		const float &xy_thrust_factor;
 	};
 
 	FunctionProviderBase() = default;
