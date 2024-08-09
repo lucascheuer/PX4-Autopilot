@@ -270,6 +270,8 @@ ControlAllocator::update_effectiveness_source()
 			tmp = new ActuatorEffectivenessHelicopterCoaxial(this);
 			break;
 
+		case EffectivenessSource::PULSING_MULTIROTOR:
+			tmp = new ActuatorEffectivenessPulsingMultirotor(this);
 		default:
 			PX4_ERR("Unknown airframe");
 			break;
