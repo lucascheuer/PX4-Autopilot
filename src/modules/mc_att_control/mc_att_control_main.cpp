@@ -151,12 +151,12 @@ MulticopterAttitudeControl::generate_attitude_setpoint(const Quatf &q, float dt,
 	 */
 	_man_roll_input_filter.setParameters(dt, _param_mc_man_tilt_tau.get());
 	_man_pitch_input_filter.setParameters(dt, _param_mc_man_tilt_tau.get());
-	_man_aux1_input_filter.setParameters(dt, _param_mc_man_tilt_tau.get());
+	_man_aux1_input_filter.setParameters(dt, _param_mc_man_tilt_tau.get()); // adding aux 1 and 2 as inputs
 	_man_aux2_input_filter.setParameters(dt, _param_mc_man_tilt_tau.get());
 	// we want to fly towards the direction of (roll, pitch)
 
 	Vector2f v = Vector2f(_man_aux1_input_filter.update(_manual_control_setpoint.aux1 * _man_tilt_max),
-			      -_man_aux2_input_filter.update(_manual_control_setpoint.aux2 * _man_tilt_max));
+			      -_man_aux2_input_filter.update(_manual_control_setpoint.aux2 * _man_tilt_max)); // input for level vector is controlled by the aux channels (pots are best)
 	float v_norm = v.norm(); // the norm of v defines the tilt angle
 
 	if (v_norm > _man_tilt_max) { // limit to the configured maximum tilt angle
@@ -189,7 +189,7 @@ MulticopterAttitudeControl::generate_attitude_setpoint(const Quatf &q, float dt,
 	attitude_setpoint.roll_body = euler_sp(0);
 	attitude_setpoint.pitch_body = euler_sp(1);
 	attitude_setpoint.yaw_body = euler_sp(2);
-	attitude_setpoint.thrust_body[0] = _man_pitch_input_filter.update(_manual_control_setpoint.pitch * 1.0f);
+	attitude_setpoint.thrust_body[0] = _man_pitch_input_filter.update(_manual_control_setpoint.pitch * 1.0f); // replacing roll and pitch sticks with left/right, forward/back sticks
 	attitude_setpoint.thrust_body[1] = _man_roll_input_filter.update(_manual_control_setpoint.roll * 1.0f);
 	attitude_setpoint.thrust_body[2] = -throttle_curve(_manual_control_setpoint.throttle);
 
